@@ -222,7 +222,7 @@ const inputDarkTheme = {
     borderColor: 'grey',
     borderWidth: 2,
     borderRadius:17,
-    height: '100%',
+    height: hp('5%'),
     backgroundColor: '#2e2e2e',
   },
   trombonne: {

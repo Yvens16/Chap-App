@@ -4,6 +4,7 @@ import Header from '../chat/header/ChatHeader';
 import Body from '../chat/body/ChatBody';
 import Input from '../chat/body/ChatInput';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { Font } from 'expo'; 
 // import { widthPercentageToDp as wp, heightPercentageToDp as hp } from './style';
 
 export default class ChatPage extends React.Component {
@@ -21,6 +22,7 @@ export default class ChatPage extends React.Component {
       theme: 1,
       text: '',
       convo: [],
+      fontLoaded: false,
     };
   };
 
@@ -114,18 +116,26 @@ export default class ChatPage extends React.Component {
     },100)
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    await Font.loadAsync({
+      'Montserrat-Regular': require('../../assets/fonts/Montserrat/Montserrat-Regular.ttf'),
+      'Montserrat-SemiBold': require('../../assets/fonts/Montserrat/Montserrat-SemiBold.ttf'),
+      'Montserrat-Bold': require('../../assets/fonts/Montserrat/Montserrat-Bold.ttf'),
+      'Montserrat': require('../../assets/fonts/Montserrat/Montserrat-Regular.ttf'),
+    });
     this.setState({
       convo: this.props.navigation.state.params.msg,
+      fontLoaded: true,
     })
   }
   render () {
-    const { open, green, yellow, orange, blue, elems, theme, blackTheme, text, convo, handleTextSubmit } = this.state;
+    const { open, green, yellow, orange, blue, elems, theme, blackTheme, text, convo, handleTextSubmit, fontLoaded } = this.state;
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={[styles.container, {backgroundColor: theme === 3 ? 'black' : '#fff'}]}>
         <Animated.View style={[styles.blackView, {flex:blackTheme}]}></Animated.View>
         <View style={styles.innerContainer}>
           <Header
+            fontLoaded={fontLoaded}
             style={styles.header}
             handlePress={this.handlePress}
             handleTheme={this.handleTheme}
@@ -142,10 +152,12 @@ export default class ChatPage extends React.Component {
           />
           <KeyboardAvoidingView style={{flex:1, justifyContent: 'flex-end'}} keyboardVerticalOffset={hp('2%')} behavior='position'>
             <Body
+            fontLoaded={fontLoaded}
             theme={theme}
             convo={convo}
             />
             <Input
+            fontLoaded={fontLoaded}
             theme={theme}
             text={text}
             handleInput={this.handleInput}
@@ -154,7 +166,7 @@ export default class ChatPage extends React.Component {
             />
           </KeyboardAvoidingView>
         </View>
-      </View>
+      </SafeAreaView>
     )
   }
 }

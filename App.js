@@ -67,7 +67,7 @@ export default createAppContainer(AppNavigator);
 //   }
 //   render() {
 //     const { currentScreen } = this.state;
-//     let screen = <DevUX/>
+//     let screen = <ChatPage/>
 //     // let screen = currentScreen === 'Splash' ? <Splash/> : <ChatPage style={styles.body}/>;
 //     return screen;
 //     // return (

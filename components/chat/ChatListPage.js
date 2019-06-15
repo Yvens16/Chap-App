@@ -14,10 +14,14 @@ export class ChatListPage extends Component {
               onPress={() => this.props.navigation.goBack()}
             >
             <Text style={{fontSize:wp('8%'), opacity:0.5, transform: [{ rotate: '180deg' }]}}> > </Text>
-            <Text> Back </Text>
+            <Text style={{fontSize: wp('10%'), fontWeight:'700'}}>Chats</Text>
             </TouchableOpacity>
           </View>
-            <Text style={{fontSize: wp('10%'), fontWeight:'700'}}>Chats</Text>
+          <TouchableOpacity>
+            <Image
+              source={require('../../assets/search-icon/search2.png')}
+              />
+          </TouchableOpacity>
         </View>
         <View style={styles.body}>
           <FlatList
@@ -41,12 +45,12 @@ export class ChatListPage extends Component {
                   />
                 {item.unread ? <View style={[item.unread ? styles.unread: null, styles.count]}><Text style={{color: '#fff', textAlign: 'center', textAlignVertical: 'center'}}>{item.count}</Text></View>: null}
                 <View style={styles.middle}>
-                    <Text style={{fontSize: wp('5%')}}>{item.key}</Text>
-                    <Text style={[item.unread ? styles.unread: styles.read, {fontSize: wp('4%')}]}>{item.msg}</Text>
+                    <Text style={{fontSize: wp('5%'), alignSelf: 'flex-start', marginLeft:wp('4%'), fontWeight: '700'}}>{item.key}</Text>
+                    <Text style={[item.unread ? styles.unread: styles.read, {fontSize: wp('4%'), alignSelf: 'flex-start', marginLeft:wp('4%')}]}>{item.msg}</Text>
                 </View>
                 <View style={styles.right}>
                 <Text style={[item.unread ? styles.unread: styles.read, {fontSize: wp('3.2%'), marginRight: wp('3%')}]}>{item.date}</Text>
-                <Text style={{fontSize:wp('8%'), opacity:0.5}}>></Text>
+                <Text style={{fontSize:wp('5%'), opacity:0.5}}>></Text>
                 </View>
               </TouchableOpacity>
             }
@@ -85,7 +89,7 @@ const styles = StyleSheet.create({
     height: wp('15%'),
   },
   middle: {
-    marginLeft: 5,
+    // marginLeft: wp('2%'),
     flex:45,
     justifyContent: 'space-around',
     alignItems: 'center',

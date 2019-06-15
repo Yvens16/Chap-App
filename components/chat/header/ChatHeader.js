@@ -21,7 +21,7 @@ const ThemeComponent = ({elems, handleTheme, theme}) => {
   );
 };
 
-const Heading = ({handlePress, handleTheme, open, green, yellow, orange, blue, elems, theme, name, photo, navigation}) => {
+const Heading = ({handlePress, handleTheme, open, green, yellow, orange, blue, elems, theme, name, photo, navigation, fontLoaded}) => {
   const elipse1 = 
   <Defs>
     <ClipPath id="cut-off-bottom">
@@ -68,6 +68,35 @@ const Heading = ({handlePress, handleTheme, open, green, yellow, orange, blue, e
     default:
       backArrowPath = require('../../../assets/back-arrow-buttons/GREEN_ARROW.png');
   }
+
+  let nameColor;
+  switch (theme) {
+    case 2:
+      nameColor = '#357997';
+      break;
+    case 3:
+      nameColor = 'grey';
+      break;
+    case 4:
+      nameColor = '#d68087';
+      break;
+    default:
+      nameColor = '#75b58e';
+  }
+  let cross;
+  switch (theme) {
+    case 2:
+      cross = require('../../../assets/Cross/BLUE_CROSS.png');
+      break;
+    case 3:
+      cross = require('../../../assets/Cross/GREY_CROSS.png');
+      break;
+    case 4:
+      cross = require('../../../assets/Cross/PINK_CROSS.png');
+      break;
+    default:
+      cross = require('../../../assets/Cross/GREEN_CROSS.png');
+  }
   return (
   <View style={styles.container}>
     <View style={styles.container2}>
@@ -78,18 +107,18 @@ const Heading = ({handlePress, handleTheme, open, green, yellow, orange, blue, e
         >
        <Image
         source={backArrowPath}
-        style={{width:wp('2.5%'), height:hp('2.5%')}}
+        style={{width:wp('2.5%'), height:hp('2.5%'), marginRight: wp('2%')}}
         />
         <Image
         source={photo}
         style={styles.profile}
         />
         </TouchableOpacity>
-      <TouchableOpacity><Text style={{color: theme === 3 ? '#9b9b9b': 'black'}}>{name}</Text></TouchableOpacity>
+      <TouchableOpacity><Text style={{color: nameColor, fontWeight: '700', fontSize: wp('4.5%'), fontFamily: fontLoaded ? 'Montserrat-Bold': null}}>{name}</Text></TouchableOpacity>
     </View>
       <Image
         source={phonePath}
-        style={{width:wp('6%'), height:hp('3.5%')}}
+        style={{width:wp('7.5%'), height:hp('3.5%')}}
       />
         <TouchableOpacity style={styles.touch} onPress={handlePress}>
         {
@@ -97,7 +126,7 @@ const Heading = ({handlePress, handleTheme, open, green, yellow, orange, blue, e
         ? 
         <View style={styles.cross}> 
           <Image
-            source={require('../../../assets/Cross/GREY_CROSS.png')}
+            source={cross}
             style={{width:wp('5.5%'), height:hp('2.5%')}}
           />
         </View>
@@ -134,6 +163,7 @@ const Heading = ({handlePress, handleTheme, open, green, yellow, orange, blue, e
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: hp('3%'),
     height: hp('20%'),
     paddingTop: Platform.OS === 'android' ? 0: hp('2%'),
   },
@@ -155,15 +185,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    height: hp('10%'),
-    borderStyle: 'solid',
-    borderColor: 'purple',
-    // borderWidth: 4,
+    height: hp('11%'),
   },
   text: {
     textAlignVertical: 'center',
   },
   profile: {
+    marginRight: wp('5%'),
     width:wp('10%'),
     height:hp('5%'),
     borderRadius: wp('5%'),

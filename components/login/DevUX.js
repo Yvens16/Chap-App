@@ -2,8 +2,24 @@ import React, { Component } from 'react';
 import { Text, View, StyleSheet, Image, TouchableOpacity, Linking, Platform, StatusBar } from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import AwesomeButton from 'react-native-really-awesome-button';
+import { Font } from 'expo'; 
 
 export default class DevUX extends Component {
+  constructor(props) {
+    super(props);
+    this.state = ({
+      fontLoaded: false,
+    });
+  }
+  async componentDidMount() {
+    await Font.loadAsync({
+      'Montserrat-Regular': require('../../assets/fonts/Montserrat/Montserrat-Regular.ttf'),
+      'Montserrat-SemiBold': require('../../assets/fonts/Montserrat/Montserrat-SemiBold.ttf'),
+      'Montserrat-Bold': require('../../assets/fonts/Montserrat/Montserrat-Bold.ttf'),
+      'Montserrat': require('../../assets/fonts/Montserrat/Montserrat-Regular.ttf'),
+    });
+    this.setState({ fontLoaded: true });
+  }
   render() {
     return (
       <View style={styles.container}>
@@ -11,8 +27,8 @@ export default class DevUX extends Component {
           <Image
           source={require('../../assets/message2.png')}
           />
-          <Text style={styles.text1}>Hello Fadel</Text>
-          <Text style={styles.text2}>
+          <Text style={[styles.text1, {fontFamily: this.state.fontLoaded ?  'Montserrat-SemiBold' : null}]}>Hello {this.props.navigation ? this.props.navigation.state.params.name : 'hello'}</Text>
+          <Text style={[styles.text2, {fontFamily: this.state.fontLoaded ?  'Montserrat-Regular' : null}]}>
             Cet app est un petit projet que nous avons crée afin de perfectionner nos skills,
             En react native et en design. Nous espérons que vous l'apprécierais.
           </Text>
@@ -24,18 +40,18 @@ export default class DevUX extends Component {
                 style={styles.img}
                 source={require('../../assets/social/fadel.jpeg')}
               />
-            <Text style={styles.text3}>Fadel Gueye</Text>
-            <Text style={styles.text4}>UX/UI designer</Text>
+            <Text style={[styles.text3, {fontFamily: this.state.fontLoaded ?  'Montserrat' : null}]}>Fadel Gueye</Text>
+            <Text style={[styles.text4, {fontFamily: this.state.fontLoaded ?  'Montserrat' : null}]}>UX/UI designer</Text>
             <View style={styles.social}>
               <TouchableOpacity onPress={() => Linking.openURL("https://www.behance.net/FadelGueye")}>
                 <Image
-                  source={require('../../assets/social/behance3.png')}
+                  source={require('../../assets/social/behance2.png')}
                 />
               </TouchableOpacity>
               <TouchableOpacity onPress={() => Linking.openURL("https://www.linkedin.com/in/fadel-gueye-aa5021141/")}>
                 <Image
                   style={styles.linkedin}
-                  source={require('../../assets/social/linkedin3.png')}
+                  source={require('../../assets/social/linkedin2.png')}
                   />
               </TouchableOpacity>
             </View>
@@ -45,18 +61,18 @@ export default class DevUX extends Component {
               style={styles.img}  
               source={require('../../assets/social/yvens.jpeg')}
             />
-              <Text style={styles.text3}>Yvens Belaston</Text>
-              <Text style={styles.text4}>Developpeur web</Text>
+              <Text style={[styles.text3, {fontFamily: this.state.fontLoaded ?  'Montserrat' : null}]}>Yvens Belaston</Text>
+              <Text style={[styles.text4, {fontFamily: this.state.fontLoaded ?  'Montserrat' : null}]}>Developpeur web</Text>
               <View style={styles.social}>
               <TouchableOpacity onPress={() => Linking.openURL("https://github.com/Yvens16")}>
                   <Image
-                    source={require('../../assets/social/githublogo3.png')}
+                    source={require('../../assets/social/githublogo2.png')}
                   />
               </TouchableOpacity>
                 <TouchableOpacity onPress={() => Linking.openURL("https://www.linkedin.com/in/yvens-belaston-0774a8141/")}>
                   <Image
                     style={styles.linkedin}
-                    source={require('../../assets/social/linkedin3.png')}
+                    source={require('../../assets/social/linkedin2.png')}
                   />
                 </TouchableOpacity>
               </View>
@@ -66,7 +82,7 @@ export default class DevUX extends Component {
           <TouchableOpacity 
             onPress={() => this.props.navigation.navigate('ChatList')}          
             style={styles.btn}>
-            <Text style={styles.btnText}>Let's go</Text>
+            <Text style={[styles.btnText, {fontFamily: this.state.fontLoaded ?  'Montserrat-Bold' : null}]}>Let's go</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -119,33 +135,37 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: '500',
     marginTop: '5%',
-    fontSize: wp('7%'),
+    fontSize: wp('6%'),
   },
   text4: {
     color: '#fff',
     fontStyle: 'italic',
+    fontSize: wp('4%'),
   },
   img: {
-    width: wp('15%'),
-    height: wp('15%'),
-    borderRadius: wp('15%')/2,
+    width: wp('13%'),
+    height: wp('13%'),
+    borderRadius: wp('13%')/2,
     borderWidth:3,
     borderColor: '#fff',
   },
   social: {
     marginTop: '5%',
-    width: wp('80%'),
+    width: wp('70%'),
+    height: hp('12%'),
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'baseline',
+    // borderWidth: 2,
   },
   socialView: {
-    height: '50%',
+    width: wp('48%'),
+    height: hp('50%'),
     justifyContent: 'center',
     alignItems: 'center',
   },
   linkedin:{
-    marginLeft: '10 %',
+    marginLeft: wp('10%'),
   },
   container3: {
     height: hp('15%'),

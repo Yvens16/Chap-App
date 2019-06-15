@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Text, View, StyleSheet, KeyboardAvoidingView, TextInput, Button, TouchableOpacity } from 'react-native';
 import AwesomeButton from 'react-native-really-awesome-button';
 import { Svg } from 'expo';
+import { Font } from 'expo';
 
 const { Circle, Rect, G, Path } = Svg;
 
@@ -13,8 +14,15 @@ export class LoginPage extends Component {
       password: '',
       borderUsername: false,
       borderPassword: false,
+      fontLoaded: false,
     }
   }
+
+  handleTextSubmit = (content) => {
+    // this.props.navigation.state.params.name = content.nativeEvent.text;
+    console.log(' ############content.nativeEvent.text:', content.nativeEvent.text)
+  }
+  
   focus(e, name){
     if (name === 'username') {
       this.setState({
@@ -38,6 +46,16 @@ export class LoginPage extends Component {
       })
     }
   }
+
+  async componentDidMount() {
+    await Font.loadAsync({
+      'Montserrat-Regular': require('../../assets/fonts/Montserrat/Montserrat-Regular.ttf'),
+      'Montserrat-Bold': require('../../assets/fonts/Montserrat/Montserrat-Bold.ttf'),
+      'Montserrat': require('../../assets/fonts/Montserrat/Montserrat-Regular.ttf'),
+    });
+    this.setState({ fontLoaded: true });
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -63,7 +81,7 @@ export class LoginPage extends Component {
                 </G>
               </G>
             </Svg>
-            <Text style={styles.text}> Welcome !</Text>
+            <Text style={[styles.text, {fontFamily: this.state.fontLoaded ?  'Montserrat-Bold' : null}]}> Welcome !</Text>
         </View>
         <KeyboardAvoidingView behavior='padding' style={styles.middle}>
           <TextInput
@@ -71,21 +89,22 @@ export class LoginPage extends Component {
           onBlur={(e, name='username') => this.blur(e, name='username')}
           onChangeText={userName => this.setState({userName})}
           value={this.state.userName}
-          style={[styles.username, this.state.borderUsername? styles.inputFocus : null ]} placeholder='Username'/>
+          onSubmitEditing={text => this.handleTextSubmit(text)}
+          style={[styles.username, this.state.borderUsername? styles.inputFocus : null, {fontFamily: this.state.fontLoaded ?  'Montserrat' : null} ]} placeholder='Username'/>
           <TextInput
           onFocus={(e, name='password') => this.focus(e, name='password')}
           onBlur={(e, name='password') => this.blur(e, name='password')}
           secureTextEntry={true}
           onChangeText={password => this.setState({password})}
           value={this.state.password}
-          style={[styles.password, this.state.borderPassword? styles.inputFocus : null ]} placeholder='Password'/>
-          <Text style={styles.forgot}>Forgot password ?</Text>
+          style={[styles.password, this.state.borderPassword? styles.inputFocus : null, {fontFamily: this.state.fontLoaded ?  'Montserrat' : null} ]} placeholder='Password'/>
+          <Text style={[styles.forgot, , {fontFamily: this.state.fontLoaded ?  'Montserrat' : null}]}>Forgot password ?</Text>
         </KeyboardAvoidingView>
         <View style={styles.bottom}>
           <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('DevUX')}
+            onPress={() => this.props.navigation.navigate('DevUX', {name: this.state.userName})}
             style={styles.btn}>
-            <Text style={styles.btnText}>Sign in</Text>
+            <Text style={[styles.btnText, {fontFamily: this.state.fontLoaded ?  'Montserrat' : null}]}>Sign in</Text>
           </TouchableOpacity>
         </View>
       </View>
