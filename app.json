@@ -24,6 +24,8 @@
     ],
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "description": "A small chat app.",
+    "githubUrl": "https://github.com/Yvens16/Chap-App"
   }
 }
